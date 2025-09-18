@@ -6,7 +6,6 @@
     <title>Bad Apple</title>
     <link rel="icon" type="image/png" href="icon.png">
     <style>
-        /* Make video cover entire screen */
         html, body {
             margin: 0;
             padding: 0;
@@ -27,6 +26,20 @@
     </style>
 </head>
 <body>
-    <video src="bad_apple.mp4" autoplay loop muted playsinline></video>
+    <video src="bad_apple.mp4" autoplay loop preload="auto" playsinline></video>
+
+    <script>
+        const video = document.querySelector('video');
+
+        // Attempt to play sound automatically
+        video.addEventListener('canplay', () => {
+            video.play().catch(() => {
+                console.warn("Autoplay with sound blocked; user interaction may be required.");
+            });
+        });
+
+        // Optional: reduce lag by setting decoding hint
+        video.setAttribute('decoding', 'async');
+    </script>
 </body>
 </html>
