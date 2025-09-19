@@ -1,45 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bad Apple</title>
-    <link rel="icon" type="image/png" href="icon.png">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: black;
-        }
-        video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bad Apple</title>
+<link rel="icon" type="image/png" href="icon.png">
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background: black;
+}
+
+/* Intro page */
+#intro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background: black;
+    cursor: pointer;
+}
+
+/* Apple image */
+#appleButton {
+    width: 200px; /* adjust size as needed */
+    height: auto;
+    transition: transform 0.2s;
+}
+#appleButton:hover {
+    transform: scale(1.1);
+}
+
+/* Video page */
+#videoPage {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background: black;
+}
+#videoPage video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+</style>
 </head>
 <body>
-    <video src="bad_apple.mp4" autoplay loop preload="auto" playsinline></video>
 
-    <script>
-        const video = document.querySelector('video');
+<!-- Intro page with Apple image -->
+<div id="intro">
+    <img id="appleButton" src="apple.png" alt="Apple">
+</div>
 
-        // Attempt to play sound automatically
-        video.addEventListener('canplay', () => {
-            video.play().catch(() => {
-                console.warn("Autoplay with sound blocked; user interaction may be required.");
-            });
-        });
+<!-- Video page -->
+<div id="videoPage">
+    <video id="video" src="bad_apple.mp4" loop preload="auto" playsinline></video>
+</div>
 
-        // Optional: reduce lag by setting decoding hint
-        video.setAttribute('decoding', 'async');
-    </script>
+<script>
+const appleButton = document.getElementById('appleButton');
+const intro = document.getElementById('intro');
+const videoPage = document.getElementById('videoPage');
+const video = document.getElementById('video');
+
+// Click Apple to start video with audio
+appleButton.addEventListener('click', () => {
+    intro.style.display = 'none';
+    videoPage.style.display = 'block';
+    video.muted = false; // enable audio
+    video.play().catch(() => {
+        console.warn("Autoplay with sound blocked by browser, user interaction required.");
+    });
+});
+</script>
+
 </body>
 </html>
